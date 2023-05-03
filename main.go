@@ -9,21 +9,38 @@ type ContaCorrente struct {
 	saldo      float64
 }
 
+func (c *ContaCorrente) Sacar(valorSaque float64) string {
+	podeSacar := valorSaque > 0 && valorSaque <= c.saldo
+	if podeSacar {
+		c.saldo -= valorSaque
+		return "Saque realizado com sucesso"
+	} else {
+		return "Saldo insuficiente"
+	}
+
+}
+
+func (c *ContaCorrente) Depositar(valorDeposito float64) (string, float64) {
+
+	if valorDeposito > 0 {
+		c.saldo += valorDeposito
+		return "Deposito realizado com sucesso", c.saldo
+	} else {
+		return "Valor deve ser maior que 0", c.saldo
+	}
+
+}
+
 func main() {
-	// var cliente1 ContaCorrente = ContaCorrente{}
-	cliente1 := ContaCorrente{titular: "Renan", saldo: 100.5}
-	cliente4 := ContaCorrente{titular: "Renan", saldo: 100.5}
-	// cliente2 := ContaCorrente{"Jão", 0002, 123457, 0}
-	fmt.Println(cliente1 == cliente4) // comparation true
+	cliente1 := ContaCorrente{}
+	cliente1.titular = "Renan"
+	cliente1.saldo = 500
 
-	var cliente3 *ContaCorrente // pointer
-	cliente3 = new(ContaCorrente)
-	cliente3.titular = "Julio"
+	fmt.Println(cliente1.saldo)
+	fmt.Println(cliente1.Sacar(-600))
+	fmt.Println(cliente1.Sacar(100))
+	fmt.Println(cliente1.saldo)
+	fmt.Println(cliente1.Depositar(-100))
+	fmt.Println(cliente1.Depositar(100))
 
-	var cliente5 *ContaCorrente // pointer
-	cliente3 = new(ContaCorrente)
-	cliente3.titular = "Julio"
-
-	fmt.Println(cliente3 == cliente5)   // false
-	fmt.Println(*cliente3 == *cliente5) // true
 }
